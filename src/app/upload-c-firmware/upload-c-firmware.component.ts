@@ -5,6 +5,8 @@ import { from } from 'rxjs';
 import {SingleCFirmwareUpload } from '../model/model'
 import { EditFirmwareFileSize } from '../model/model';
 import { UploadCFirmwareService } from './service/upload-c-firmware.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-c-firmware',
@@ -18,7 +20,8 @@ export class UploadCFirmwareComponent implements OnInit {
   edit:EditFirmwareFileSize;
   
   hide = true;
-  constructor(private uploadCFirmware: UploadCFirmwareService ) { }
+  constructor(private uploadCFirmware: UploadCFirmwareService ,private _snackBar: MatSnackBar ,
+    private router :Router) { }
   
 
   ngOnInit(): void {
@@ -52,7 +55,10 @@ export class UploadCFirmwareComponent implements OnInit {
       console.log(data)
       if(data == true){
         console.log(this.uploadC)
-       alert("Value Uploaded Successfully");
+      
+        this._snackBar.open("Value Uploaded Successfully","",{duration: 2000});
+
+        //   this.router.navigate(['deviceSearch/single_device/1'])
        
       }
     })

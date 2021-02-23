@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { from } from 'rxjs';
 import { UploadJavaFirmware } from '../model/model'
 import { UploadJavaFirmwareService } from './service/upload-java-firmware.service';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-upload-java-firmware',
   templateUrl: './upload-java-firmware.component.html',
@@ -13,7 +14,8 @@ export class UploadJavaFirmwareComponent implements OnInit {
 
   uploadJava:UploadJavaFirmware;
   hide = true;
-  constructor(private uploadJavaFirmware: UploadJavaFirmwareService ) { }
+  constructor(private uploadJavaFirmware: UploadJavaFirmwareService,private _snackBar: MatSnackBar ,
+    private router :Router) { }
 
   ngOnInit(): void {
     this.uploadJava={
@@ -40,8 +42,11 @@ export class UploadJavaFirmwareComponent implements OnInit {
       console.log(data)
       if(data == true){
         console.log(this.uploadJava)
-       alert("Value Uploaded Successfully");
-       
+    
+       this._snackBar.open("Value Uploaded Successfully","",{duration: 2000});
+
+     //   this.router.navigate(['deviceSearch/single_device/1'])
+
       }
     })
     }
