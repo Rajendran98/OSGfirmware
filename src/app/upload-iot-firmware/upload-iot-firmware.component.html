@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <p class="tyt"><span>Menu</span> > <span>Fireware Manager</span> > <span>Upload Firmware Version</span> > <span>Customer Ashok Leyland</span></p>
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+</div>
+<p class="tyts">Upload IOT Firmware</p>
+
+<mat-card>
+    <form #accountForm="ngForm" >
+        <div class="col-sm-12"> 
+            <mat-form-field style="width: 100%;"  appearance="standard">
+               <mat-label >VERSION NAME</mat-label>
+                <input matInput  name="versionName" placeholder="VERSION NAME" ngModel maxlength="25" [(ngModel)]="uploadIot.versionName" required >
+
+            </mat-form-field>
+        </div>
+     
+        <div class="col-sm-12" >
+            <mat-form-field style="width: 100%;" appearance="standard">
+                <mat-label>SELECT FIRMWARE TYPE</mat-label>
+                <mat-select name="Type" placeholder="TYPE" ngModel  [(ngModel)]="uploadIot.Type"  required>
+                  <mat-option value="java type">JAVA TYPE</mat-option>
+                  <mat-option value="c type">C JAVA</mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+        </div>
+      
+        <div class="col-sm-12">
+            <mat-form-field style="width: 100%;" appearance="standard">
+                <mat-label >FILE NAME</mat-label>
+                <input matInput  name="fileName" placeholder="FILE NAME" ngModel  [(ngModel)]="uploadIot.fileName"  required>
+
+            </mat-form-field>
+        </div>
+     
+
+        <button mat-raised-button (click)="onClicking(accountForm)" class="one">
+            <mat-icon>save</mat-icon>
+            SAVE
+        </button>
+        <button mat-raised-button type="reset"  (click)="reset(accountForm)" class="two">
+            <mat-icon>replay
+            </mat-icon>
+            RESET
+        </button>
+
+    </form>
+</mat-card>
+

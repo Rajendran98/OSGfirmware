@@ -1,0 +1,75 @@
+.example-spacer {
+    flex: 1 1 auto;
+    }
+    .mat-toolbar{
+    background-color: #fff;
+    }
+    .material-icons{
+    padding-left: 30px;
+    }
+    .osg{
+    padding-left: 20px;
+    color:   #666666;
+    padding-top: 0px;
+    letter-spacing: 1px;
+    }
+    .icon{
+    color:   #666666;
+    padding-top: 10px;
+    }
+
+    .logged-in{
+        background-color: rgb(230, 237, 240);
+    color:#666666;
+    letter-spacing: 1px;
+    
+    }
+
+.loggedin{
+    padding-left: 140px;
+    padding-top: 10px;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #666666!important;
+  
+  }
+.h{
+
+    color:   #666666;
+    padding-left: 150px;
+    padding-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.mat-form{
+    padding: 20px;
+    width: 100%;
+    
+   
+ 
+
+}
+
+ 
+
+
+.form{
+margin-left: 140px;
+margin-right: 500px;
+padding: 0ex;
+border-radius: 8px;
+
+width: 620px;
+
+
+
+
+
+}
+.mat-option{
+
+    letter-spacing: 2px;
+    color: #666666;
+}

@@ -1,0 +1,35 @@
+
+
+  <mat-card class="logged-in">
+      <div class="loggedin">
+
+        <p> <b> LOGGED IN AS: {{this.mail}} </b> </p>
+
+      </div>
+      
+
+  </mat-card>
+
+  <div class="h">
+
+    <p> CUSTOMER SELECTION:</p>
+  </div>
+
+
+
+<mat-card class="form">
+  <mat-form-field class="mat-form" appearance="outline">
+
+    <mat-label> (1050) Ashok Leyland </mat-label>
+    <mat-select (selectionChange)="change()" >
+
+
+      <mat-option value=" (1235) THC"> <b>(1235)THC </b> </mat-option>
+    
+      <mat-option value=" (1080) LGI"> <b>(1080)LGI </b></mat-option>
+   
+      <mat-option value=" (1235) THC"> <b>(1235)THC </b> </mat-option>
+    </mat-select>
+      </mat-form-field>
+
+</mat-card>
