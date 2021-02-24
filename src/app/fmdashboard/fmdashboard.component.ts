@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FmdashboardService } from './service/fmdashboard.service';
+
 @Component({
   selector: 'app-fmdashboard',
   templateUrl: './fmdashboard.component.html',
@@ -7,9 +9,15 @@ import { Router } from '@angular/router';
 })
 export class FmdashboardComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private FmdashboardService : FmdashboardService) { }
 
   ngOnInit(): void {
+
+    this.FmdashboardService.getFirmwaredashboard().subscribe(
+      data => {
+        console.log(data)
+      }
+    )
   }
 
   dash(){

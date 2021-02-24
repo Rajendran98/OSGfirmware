@@ -76,70 +76,77 @@
       </ng-container>
  
       
-        <ng-container matColumnDef="position">
+        <ng-container matColumnDef="GPSDeviceID">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-          <td mat-cell *matCellDef="let element"><a style=" text-decoration-line: underline;color: #005F9E;">  {{element.position}} </a></td>
+          <td mat-cell *matCellDef="let element"><a style=" text-decoration-line: underline;color: #005F9E;">  {{element.GPSDeviceID}} </a></td>
         </ng-container>
   
     
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="Device_Type">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> DEVICE<br>TYPE </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Device_Type}} </td>
         </ng-container>
     
         <ng-container matColumnDef="cn">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER<br>NAME </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <th mat-header-cell *matHeaderCellDef > CUSTOMER<br>NAME </th>
+          <td mat-cell *matCellDef="let element">  </td>
         </ng-container>
       
-        <ng-container matColumnDef="symbol">
+        <ng-container matColumnDef="Network_Provider">
           <th mat-header-cell *matHeaderCellDef> NETWORK<br>PROVIDER </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Network_Provider}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="weight">
+        <ng-container matColumnDef="Mobile_Number">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> MOBILE NO. </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Mobile_Number}}  </td>
         </ng-container>
 
         <ng-container matColumnDef="mn2">
           <th mat-header-cell *matHeaderCellDef> MOBILE NO. 2 </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element">  </td>
         </ng-container>
 
-        <ng-container matColumnDef="ssd">
+        <ng-container matColumnDef="Subcription_StartDate">
           <th mat-header-cell *matHeaderCellDef> SUBSCRIPTION<br>START DATE </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Subcription_StartDate | date:'dd-MM-yyyy'}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="sed">
+        <ng-container matColumnDef="Subcription_EndDate">
           <th mat-header-cell *matHeaderCellDef> SUBSCRIPTION<br>END DATE </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Subcription_EndDate | date:'dd-MM-yyyy'}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="vtn">
+        <ng-container matColumnDef="Vehicle_Type">
           <th mat-header-cell *matHeaderCellDef> VECHICLE<br>TYPE NAME </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Vehicle_Type}} </td>
         </ng-container>
-        <ng-container matColumnDef="model">
+        <ng-container matColumnDef="Vehicle_Model">
           <th mat-header-cell *matHeaderCellDef> MODEL </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Vehicle_Model}} </td>
         </ng-container>
         <ng-container matColumnDef="ccv">
           <th mat-header-cell *matHeaderCellDef> CURRENT<br>C VERSION </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Device_Type}} </td>
         </ng-container>
         <ng-container matColumnDef="cjv">
           <th mat-header-cell *matHeaderCellDef> CURRENT<br>JAVA VERSION </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.GPSDeviceID}} </td>
         </ng-container>
--->      
+        <ng-container matColumnDef="ignition">
+          <th mat-header-cell *matHeaderCellDef> IGNITION </th>
+          <td mat-cell *matCellDef="let element"> {{element.Ignition_Status}} </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-    
-      <mat-paginator style-paginator  [showTotalPages]="4" [length]="dataSource.data.length"
-      [pageSize]="8"></mat-paginator>
-      
+      <div *ngIf="this.temp != null">
+        <mat-paginator style-paginator [showTotalPages]="4" [length]="dataSource.data.length"
+        [pageSize]="8"></mat-paginator>
+      </div>
+  
+      <div *ngIf="this.temp == null">
+        <h3 style="color: #666; text-align: center; font-weight: 500;">Records Not found</h3>
+      </div>
 </div>

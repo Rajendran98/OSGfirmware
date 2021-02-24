@@ -8,7 +8,8 @@ export const environment = {
   _loginProdUrl: "https://identity-stg.trimble.com/token?grant_type=client_credentials&amp;scope=openid",
   _outboundapi : "https://api.trimble.com/t/trimble.com/oem-devicegateway/1.0/outbound/NH519298?limit=3&page=1&sort=desc",
   _multipleDeviceapi: "https://api.trimble.com/t/trimble.com/oem-devicegateway/1.0/outbound/messages",
-  _firmwareUpload: "api"
+  _firmwareUpload: "api1",
+  _fwdashboard: "api",
 };
 
 /*
@@ -19,3 +20,11 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+//  "/api": {
+//       "target": "https://api-stg.trimble.com/t/trimble.com/osgoperations-api-dev/1.0/Outbound/Manage",
+//       "secure": true,
+//       "changeOrigin": true,
+//       "pathRewrite": {
+//         "^/api": ""
+//       }
+//     },
