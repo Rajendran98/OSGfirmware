@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
 import {DevicesearchService} from "./service/devicesearch.service"
-
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-single-device-search',
   templateUrl: './single-device-search.component.html',
@@ -23,7 +23,7 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
 //displayedColumns: string[] = ['select','id','name','cn','np','mn1','mn2','ssd','sed','vtn','model','ccv','cjv'];
   displayedColumns: string[]=["select","GPSDeviceID","Device_Type","cn","Network_Provider","Mobile_Number","mn2","Subcription_StartDate","Subcription_EndDate","Vehicle_Type","Vehicle_Model","ccv","cjv","ignition"]
   dataSource : MatTableDataSource<any>
-
+  selection = new SelectionModel(true, []);
 // @ViewChild(MatPaginator) paginator: MatPaginator;
 // @ViewChild(MatSort) sort: MatSort;
 
@@ -60,7 +60,8 @@ ngAfterViewInit() {
   
   private paginator: MatPaginator;
   private sort: MatSort;
-
+  searchKey:string;
+  
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
@@ -84,10 +85,31 @@ ngAfterViewInit() {
   }
 }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+applyFilter() {
+    
+  this.dataSource.filter = this.searchKey.trim().toLowerCase();
+}
+
+
+private isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+toggleRow(row: any, index: number) {
+  this.selection.toggle(row);
+ 
+}
+
+/** The label for the checkbox on the passed row */
+checkboxLabel(row?: any): string {
+  if (!row) {
+    return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
   }
+  return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+}
+
 
   ngAfterContentChecked()	{
   

@@ -14,7 +14,7 @@ export class FmdashboardService {
     private _router: Router) { }
 
   getFirmwaredashboard() {
-    return this.http.get<any>(`${environment._fwdashboard}`).pipe(map(user => {
+    return this.http.get<any>(`${environment._dashboard}`).pipe(map(user => {
       console.log(user);
       return user;
   }));

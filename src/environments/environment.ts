@@ -10,6 +10,7 @@ export const environment = {
   _multipleDeviceapi: "https://api.trimble.com/t/trimble.com/oem-devicegateway/1.0/outbound/messages",
   _firmwareUpload: "api1",
   _fwdashboard: "api",
+  _dashboard: "api2",
 };
 
 /*
