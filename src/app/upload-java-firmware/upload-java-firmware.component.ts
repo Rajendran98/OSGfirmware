@@ -44,7 +44,7 @@ export class UploadJavaFirmwareComponent implements OnInit {
         console.log(this.uploadJava)
     
        this._snackBar.open("Value Uploaded Successfully","",{duration: 2000});
-
+       this.navigation();
      //   this.router.navigate(['deviceSearch/single_device/1'])
 
       }
@@ -57,6 +57,11 @@ export class UploadJavaFirmwareComponent implements OnInit {
 
   }
 
+  navigation(){
+    setTimeout(() =>{
+      this.router.navigate(['deviceSearch/single_device/1'])
+    },2000)
+  }
   
   public reset(accountForm: NgForm){
 

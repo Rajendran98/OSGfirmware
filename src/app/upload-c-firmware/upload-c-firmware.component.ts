@@ -57,7 +57,7 @@ export class UploadCFirmwareComponent implements OnInit {
         console.log(this.uploadC)
       
         this._snackBar.open("Value Uploaded Successfully","",{duration: 2000});
-
+        this.navigation();
         //   this.router.navigate(['deviceSearch/single_device/1'])
        
       }
@@ -70,6 +70,11 @@ export class UploadCFirmwareComponent implements OnInit {
 
   }
 
+  navigation(){
+    setTimeout(() =>{
+      this.router.navigate(['deviceSearch/single_device/1'])
+    },2000)
+  }
   
   public onEdit(editForm: NgForm)
   {
