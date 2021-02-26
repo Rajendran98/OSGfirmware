@@ -13,11 +13,11 @@ export class FmdashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.FmdashboardService.getFirmwaredashboard().subscribe(
-      data => {
-        console.log(data)
-      }
-    )
+    // this.FmdashboardService.getFirmwaredashboard().subscribe(
+    //   data => {
+    //     console.log(data)
+    //   }
+    // )
   }
 
   dash(){

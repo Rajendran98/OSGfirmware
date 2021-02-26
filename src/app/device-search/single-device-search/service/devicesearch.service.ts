@@ -18,4 +18,11 @@ export class DevicesearchService {
       return user;
   }));
   }
+
+  getVersionDetails() {
+    return this.http.get<any>(`${environment._dashboard}`).pipe(map(user => {
+      console.log(user);
+      return user;
+  }));
+  }
 }

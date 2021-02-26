@@ -27,16 +27,21 @@
                     </div>
                     <div class="col-sm-5">
                         <p>UPDATE VERSION :</p>
-                        <mat-radio-group color="primary" aria-label="Select an option">
-                            <mat-radio-button value="1">JAVA</mat-radio-button>
-                            <mat-radio-button value="2">C</mat-radio-button>
+                        <mat-radio-group color="primary" aria-label="Select an option" [(ngModel)]="select" >
+                            <mat-radio-button [value]="false">JAVA</mat-radio-button>
+                            <mat-radio-button [value]="true">C</mat-radio-button>
                           </mat-radio-group>
                           <mat-form-field style="width: 100px; margin-left: 10px;" appearance="standard">
-                            <mat-select>
-                              <mat-option value="one"> VERSION ONE</mat-option>
-                              <mat-option value="two">VERSION TWO</mat-option>
+                            <mat-select [(ngModel)]="selectedValue">
+                              <ng-container  *ngFor="let version of Versions"> 
+
+                                <mat-option *ngIf="version.IsFirmwareC == select" [value]="version.Name">
+                                  {{version.Name}}
+                                </mat-option>
+                            </ng-container>
                             </mat-select>
                           </mat-form-field>  
+                          
                         <button mat-raised-button class="btn1">FLASH FIRMWARE</button>
                           
                     </div>

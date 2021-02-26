@@ -14,7 +14,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , AfterContentChecked ,AfterContentInit {
 
-   
+  public entries: object = [];
+  public entries1: object = [];
+  public Versions: object = [];
+  select = false;
+ sample =[];
+ selectedValue: string;
   public file : File;
   fileToUpload: File;
   loadingFlag = true;
@@ -42,13 +47,39 @@ ngAfterViewInit() {
     this.DevicesearchService.searchDetails().subscribe(
       data => {
         this.dataSource = new MatTableDataSource(data)
+      
         this.dataSource ? this.loadingFlag = false : this.loadingFlag = true;
-        console.log(data)
+      
         this.temp = this.dataSource.data.length;
       }
     )
 
+     this.DevicesearchService.getVersionDetails().subscribe(
+       data => {
+        this.entries = data
+        function* entries(obj) {
+          for (let key of Object.keys(obj)) {
+            yield [key, obj[key]];
+          }
+       }
   
+       for (let [key1, value1] of entries(this.entries)) {
+
+      
+        if(key1 == 'SearchData'){
+           
+           this.Versions = value1;
+        
+          
+        }
+
+        // for (let [key, value] of entries(value1)) {
+
+        // }
+        
+       }
+       }
+     ) 
     
     this.route.params.subscribe(params => {
       this.id = params['id'] -1;
