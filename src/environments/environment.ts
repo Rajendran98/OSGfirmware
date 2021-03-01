@@ -11,6 +11,8 @@ export const environment = {
   _firmwareUpload: "api1",
   _fwdashboard: "api",
   _dashboard: "api2",
+  _publishVersion: "api3",
+  
 };
 
 /*

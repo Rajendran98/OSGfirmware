@@ -25,10 +25,11 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
   loadingFlag = true;
   temp = null
   id
+  public publishVersion: object;
 //displayedColumns: string[] = ['select','id','name','cn','np','mn1','mn2','ssd','sed','vtn','model','ccv','cjv'];
   displayedColumns: string[]=["select","GPSDeviceID","Device_Type","cn","Network_Provider","Mobile_Number","mn2","Subcription_StartDate","Subcription_EndDate","Vehicle_Type","Vehicle_Model","ccv","cjv","ignition"]
   dataSource : MatTableDataSource<any>
-  selection = new SelectionModel(true, []);
+  selection = new SelectionModel(false, []);
 // @ViewChild(MatPaginator) paginator: MatPaginator;
 // @ViewChild(MatSort) sort: MatSort;
 
@@ -84,6 +85,34 @@ ngAfterViewInit() {
     this.route.params.subscribe(params => {
       this.id = params['id'] -1;
     });
+
+
+    this.publishVersion = {
+    DeviceType: "tap76",
+    OTAPType: "update",
+    update:[
+      {
+        Device: "NJ042614",
+        DeviceID: 351431,
+        CVersion: "",
+        JavaVersion: "J3202002",
+        ServerIP: "http://13.228.224.113/J3202002/TAP66.jad",
+        FilePath: "J3202002",
+        FileSize: "0",
+        FirmwareVersion: "J3202002",
+        FirmwareType: 0,
+        Port: 2222,
+        UserName: null,
+        Password: null,
+        FirmwareUpgradeEnum: 34,
+        APN: "m2m.trimble.com",
+        AppInstanceID: null,
+        UserID: "2739",
+        Internal: false,
+        DeviceGateway: "TDMG",
+        IOTDevice: ""
+      }
+    ]}
   }
 
 
@@ -130,13 +159,16 @@ private isAllSelected() {
 
 toggleRow(row: any, index: number) {
   this.selection.toggle(row);
+  console.log(row)
  
 }
 
 /** The label for the checkbox on the passed row */
 checkboxLabel(row?: any): string {
   if (!row) {
+   
     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    
   }
   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
 }
@@ -149,6 +181,15 @@ checkboxLabel(row?: any): string {
 
   changeTab(event) {
     this.id = event.index;
+  }
+
+  postData(){
+    console.log(this.publishVersion)
+      
+    this.DevicesearchService.PublishedVersion(this.publishVersion).pipe().subscribe(data=>{
+      console.log(data)
+  
+    })
   }
 
 

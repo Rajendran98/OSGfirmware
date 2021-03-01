@@ -25,4 +25,11 @@ export class DevicesearchService {
       return user;
   }));
   }
+
+  PublishedVersion(data) {
+    return this.http.post<any>(`${environment._publishVersion}`, data).pipe(map(user => {
+      console.log(user);
+      return user;
+  }));
+  }
 }
