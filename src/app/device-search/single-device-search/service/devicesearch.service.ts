@@ -27,7 +27,7 @@ export class DevicesearchService {
   }
 
   PublishedVersion(data) {
-    return this.http.post<any>(`${environment._publishVersion}`, data).pipe(map(user => {
+    return this.http.post<object>(`${environment._publishVersion}`, data).pipe(map(user => {
       console.log(user);
       return user;
   }));

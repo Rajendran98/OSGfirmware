@@ -33,16 +33,16 @@
                           </mat-radio-group>
                           <mat-form-field style="width: 100px; margin-left: 10px;" appearance="standard">
                             <mat-select [(ngModel)]="selectedValue">
-                              <ng-container  *ngFor="let version of Versions"> 
+                              <div *ngFor="let version of Versions"> 
 
-                                <mat-option *ngIf="version.IsFirmwareC == select" [value]="version.Name">
+                                <mat-option *ngIf="version.IsFirmwareC == select" (click)="listed(version)" [value]="version.Name">
                                   {{version.Name}}
                                 </mat-option>
-                            </ng-container>
+                              </div>
                             </mat-select>
                           </mat-form-field>  
                           
-                        <button mat-raised-button class="btn1" (click)="postData()">FLASH FIRMWARE</button>
+                        <button mat-raised-button class="btn1" (click)="postData(select)">FLASH FIRMWARE</button>
                           
                     </div>
                 </div>

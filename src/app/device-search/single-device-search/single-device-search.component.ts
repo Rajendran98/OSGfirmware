@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
 import {DevicesearchService} from "./service/devicesearch.service"
 import { SelectionModel } from '@angular/cdk/collections';
+import { __assign } from 'tslib';
 @Component({
   selector: 'app-single-device-search',
   templateUrl: './single-device-search.component.html',
@@ -17,6 +18,7 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
   public entries: object = [];
   public entries1: object = [];
   public Versions: object = [];
+
   select = false;
  sample =[];
  selectedValue: string;
@@ -25,7 +27,9 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
   loadingFlag = true;
   temp = null
   id
-  public publishVersion: object;
+
+  public publishVersion: object =[];
+  
 //displayedColumns: string[] = ['select','id','name','cn','np','mn1','mn2','ssd','sed','vtn','model','ccv','cjv'];
   displayedColumns: string[]=["select","GPSDeviceID","Device_Type","cn","Network_Provider","Mobile_Number","mn2","Subcription_StartDate","Subcription_EndDate","Vehicle_Type","Vehicle_Model","ccv","cjv","ignition"]
   dataSource : MatTableDataSource<any>
@@ -88,10 +92,8 @@ ngAfterViewInit() {
 
 
     this.publishVersion = {
-    DeviceType: "tap76",
-    OTAPType: "update",
-    update:[
-      {
+      update:[
+        {
         Device: "NJ042614",
         DeviceID: 351431,
         CVersion: "",
@@ -112,7 +114,7 @@ ngAfterViewInit() {
         DeviceGateway: "TDMG",
         IOTDevice: ""
       }
-    ]}
+      ]}
   }
 
 
@@ -160,7 +162,13 @@ private isAllSelected() {
 toggleRow(row: any, index: number) {
   this.selection.toggle(row);
   console.log(row)
- 
+  for (const [key, value] of Object.entries(row)) {
+    if(key == "GPSDeviceID")
+    {
+      __assign(this.publishVersion,{update: [{Device: value , DeviceID: 351431}]})
+      console.log(this.publishVersion)
+    }
+  }
 }
 
 /** The label for the checkbox on the passed row */
@@ -183,9 +191,17 @@ checkboxLabel(row?: any): string {
     this.id = event.index;
   }
 
-  postData(){
-    console.log(this.publishVersion)
-      
+  listed(version){
+    for (const [key, value] of Object.entries(version)) {
+      if(key == "Name")
+      {
+        
+      }
+    }
+  }
+
+  postData(selected){
+    this.select = selected
     this.DevicesearchService.PublishedVersion(this.publishVersion).pipe().subscribe(data=>{
       console.log(data)
   
