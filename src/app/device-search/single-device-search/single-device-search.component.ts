@@ -7,13 +7,20 @@ import {MatSort , Sort} from '@angular/material/sort';
 import {DevicesearchService} from "./service/devicesearch.service"
 import { SelectionModel } from '@angular/cdk/collections';
 import { __assign } from 'tslib';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
+
 @Component({
   selector: 'app-single-device-search',
   templateUrl: './single-device-search.component.html',
   styleUrls: ['./single-device-search.component.css']
 })
 
+
+
+
 export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , AfterContentChecked ,AfterContentInit {
+
 
   public entries: object = [];
   public entries1: object = [];
@@ -34,8 +41,24 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
   displayedColumns: string[]=["select","GPSDeviceID","Device_Type","cn","Network_Provider","Mobile_Number","mn2","Subcription_StartDate","Subcription_EndDate","Vehicle_Type","Vehicle_Model","ccv","cjv","ignition"]
   dataSource : MatTableDataSource<any>
   selection = new SelectionModel(false, []);
+
+
 // @ViewChild(MatPaginator) paginator: MatPaginator;
 // @ViewChild(MatSort) sort: MatSort;
+
+//value assigned to update
+
+  public version;
+  public ServerIP;
+  public FilePath
+  public FileSize
+  public Port
+  public UserName
+  public Password
+  public APN
+  public Device
+  public FirmwareVersion
+  public UserID
 
 ngAfterContentInit(){
  
@@ -45,7 +68,7 @@ ngAfterViewInit() {
   
 }
 
-  constructor(private route: ActivatedRoute, private DevicesearchService: DevicesearchService) { }
+  constructor(private route: ActivatedRoute, private DevicesearchService: DevicesearchService,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -90,31 +113,32 @@ ngAfterViewInit() {
       this.id = params['id'] -1;
     });
 
+  
 
-    this.publishVersion = {
-      update:[
-        {
-        Device: "NJ042614",
-        DeviceID: 351431,
-        CVersion: "",
-        JavaVersion: "J3202002",
-        ServerIP: "http://13.228.224.113/J3202002/TAP66.jad",
-        FilePath: "J3202002",
-        FileSize: "0",
-        FirmwareVersion: "J3202002",
-        FirmwareType: 0,
-        Port: 2222,
-        UserName: null,
-        Password: null,
-        FirmwareUpgradeEnum: 34,
-        APN: "m2m.trimble.com",
-        AppInstanceID: null,
-        UserID: "2739",
-        Internal: false,
-        DeviceGateway: "TDMG",
-        IOTDevice: ""
-      }
-      ]}
+    // this.publishVersion = {
+    //   update:[
+    //     {
+    //     Device: "NJ042614",
+    //     DeviceID: 351431,
+    //     CVersion: "",
+    //     JavaVersion: "J3202002",
+    //     ServerIP: "http://13.228.224.113/J3202002/TAP66.jad",
+    //     FilePath: "J3202002",
+    //     FileSize: "0",
+    //     FirmwareVersion: "J3202002",
+    //     FirmwareType: 0,
+    //     Port: 2222,
+    //     UserName: null,
+    //     Password: null,
+    //     FirmwareUpgradeEnum: 34,
+    //     APN: "m2m.trimble.com",
+    //     AppInstanceID: null,
+    //     UserID: "2739",
+    //     Internal: false,
+    //     DeviceGateway: "TDMG",
+    //     IOTDevice: ""
+    //   }
+    //   ]}
   }
 
 
@@ -165,8 +189,14 @@ toggleRow(row: any, index: number) {
   for (const [key, value] of Object.entries(row)) {
     if(key == "GPSDeviceID")
     {
-      __assign(this.publishVersion,{update: [{Device: value , DeviceID: 351431}]})
-      console.log(this.publishVersion)
+      this.Device = value
+      // __assign(this.publishVersion,{update: [{Device: value , DeviceID: 351431}]})
+      // console.log(this.publishVersion)
+
+    }
+    if(key == "Firmware_Version")
+    {
+      this.FirmwareVersion = value
     }
   }
 }
@@ -192,21 +222,78 @@ checkboxLabel(row?: any): string {
   }
 
   listed(version){
+    console.log(version)
     for (const [key, value] of Object.entries(version)) {
       if(key == "Name")
       {
+        this.version = value;
+      }
+      if(key == "ServerIP")
+      {
+        this.ServerIP = value;
+      }
+      if(key == "FilePath")
+      {
+        this.FilePath = value
+      }
+      if(key == "FileSize")
+      {
+        this.FileSize = value
         
+    console.log(this.FileSize)
+      }
+      if(key == "Port"){
+        this.Port= value;
+      }
+      if(key == "UserName"){
+        this.UserName = value
+      }
+      if(key == "Password"){
+        this.Password = value
+      }
+      if(key == "APN"){
+        this.APN =value
+      }
+      if(key == "ID")
+      {
+        this.UserID = value
       }
     }
   }
 
   postData(selected){
     this.select = selected
-    this.DevicesearchService.PublishedVersion(this.publishVersion).pipe().subscribe(data=>{
-      console.log(data)
+    if(this.select == true && this.version != undefined && this.Device != undefined)
+    {
+      let objData = Object.assign({update: [{Device: this.Device , DeviceID: 351431 , CVersion: this.version , JavaVersion: "", ServerIP: this.ServerIP , FilePath: this.FilePath , FileSize: this.FileSize , FirmwareVersion: this.FirmwareVersion , FirmwareType: 0 , Port: this.Port , UserName: this.UserName , Password: this.Password , FirmwareUpgradeEnum: 34 , APN: this.APN , AppInstanceID: null , UserID: "2739" , Internal: false , DeviceGateway: "TDMG" , IOTDevice: ""}]})
+        // __assign(this.publishVersion,{update: [{Device: this.Device , DeviceID: 351431 , CVersion: this.version , JavaVersion: "", ServerIP: this.ServerIP , FilePath: this.FilePath , FileSize: this.FileSize , FirmwareVersion: this.FirmwareVersion , FirmwareType: 0 , Port: this.Port , UserName: this.UserName , Password: this.Password , FirmwareUpgradeEnum: 34 , APN: this.APN , AppInstanceID: null , UserID: this.UserID , Internal: false , DeviceGateway: "TDMG" , IOTDevice: ""}]})
+        // console.log(this.publishVersion) 
+      console.log(objData)
+      this.DevicesearchService.PublishedVersion(objData).pipe().subscribe(data=>{
+        console.log(data)
+        })
+      
+        // this.finalPost();
+    }
   
-    })
+
+    if(this.select == false && this.version != undefined && this.Device != undefined)
+    {
+      let objData = Object.assign({update: [{Device: this.Device , DeviceID: 351431 , CVersion: "" , JavaVersion: this.version , ServerIP: this.ServerIP , FilePath: this.FilePath , FileSize: this.FileSize , FirmwareVersion: this.FirmwareVersion , FirmwareType: 0 , Port: this.Port , UserName: this.UserName , Password: this.Password , FirmwareUpgradeEnum: 34 , APN: this.APN , AppInstanceID: null , UserID: "2739" , Internal: false , DeviceGateway: "TDMG" , IOTDevice: ""}]})
+  
+        this.DevicesearchService.PublishedVersion(objData).pipe().subscribe(data=>{
+          console.log(data)
+          })
+    }
+    if(this.version == undefined || this.Device == undefined)
+    {
+      this._snackBar.open("Select Version and CheckBox To Update Version","",{duration: 5000});
+    }
+  
+    
+   
   }
+
 
 
   postMethod(files: FileList) {
