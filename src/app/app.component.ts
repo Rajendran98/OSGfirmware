@@ -1,19 +1,42 @@
-import { Component } from '@angular/core';
+import { Component,OnInit  } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { Firmware } from './model/model' 
+import { Firmware } from './model/model';
+import {Apollo , QueryRef} from 'apollo-angular';
+import gql from "graphql-tag";
+import { map, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs'
 
 export interface Fruit {
   name: string;
 }
+
+// export interface devicetype{
+//   ID:Number;
+//   DeviceType:String;
+//   IsActive:Boolean;
+// }
+
+
+
+
+// const QUERY = gql`
+// {
+//   devicetype {
+//     ID
+//     DeviceType
+//     IsActive
+//   }
+// }
+// `;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'osg';
   public firmwares: Firmware;
   visible = true;
@@ -21,18 +44,46 @@ export class AppComponent {
   removable = true;
   addOnBlur = true;
   firmwareValues: string[];
+  
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   fruits: Fruit[] = [
     {name: 'Lemon'},
     {name: 'Lime'},
     {name: 'Apple'},
   ];
-
+  
+query$: Observable<any>;
   constructor(
-    private router: Router) {
+    private router: Router,private apollo: Apollo) {
       this.firmwares = new Firmware();
       this.firmwareValues = this.firmwares.name;
      }
+
+     ngOnInit() {
+
+      const source$ = this.apollo.query({
+        query: gql`
+        {
+          devicetype {
+            ID
+            DeviceType
+            IsActive
+          }
+        }`
+        
+      }).pipe(shareReplay(1))
+      
+      this.query$ = source$.pipe(map(result => result.data && result.data.devicetype));
+      console.log(this.query$)
+      // this.query$ = this.apollo
+      // .watchQuery<any>({
+      //   query: QUERY,
+      // })
+      // .valueChanges.pipe(map(result => result.data && result.data.devicetypes));
+      // console.log(this.query$)
+  }
+
+     
 
      element: HTMLElement;
      toggleActive(event:any){

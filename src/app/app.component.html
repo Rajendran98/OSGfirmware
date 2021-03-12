@@ -151,9 +151,10 @@
           <img src="../assets/Manage firmware.png"/>
          
         <mat-menu #menu1="matMenu" class="custom-class1">
-          <div *ngFor="let device of firmwareValues">
-          <button  class="sidetxt"  [routerLink] = "['/deviceSearch/'+device]" [routerLinkActive] ='"active-list-item1"' [routerLinkActiveOptions]="{exact: true}" 
-            mat-menu-item>{{device}}</button>
+          <div *ngFor="let device of query$ | async">
+            <div *ngIf="device.IsActive == true">
+          <button   class="sidetxt"  [routerLink] = "'/deviceSearch/'+device.DeviceType" [routerLinkActive] ='"active-list-item1"' [routerLinkActiveOptions]="{exact: true}" 
+            mat-menu-item>{{device.DeviceType}}</button>
           <mat-divider></mat-divider>
         
           <!-- <button class="sidetxt" mat-menu-item>TAP76</button>
@@ -176,6 +177,7 @@
           <p hidden [routerLink] = "['/deviceSearch/'+device]" >single</p>
           <p hidden routerLink="/deviceSearch/single_device/1">single</p>
           <p hidden routerLink="/deviceSearch/single_device/2">multi</p>
+        </div>
         </div>
         </mat-menu>
       </a>

@@ -50,6 +50,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { GraphQLModule } from './graphql.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +102,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HttpClientModule,
     MatTableExporterModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    GraphQLModule
 
   ],
   providers: [ AuthenticationService,OutboundService ,{
