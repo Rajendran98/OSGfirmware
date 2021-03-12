@@ -8,18 +8,21 @@ import gql from "graphql-tag";
 import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs'
 
+
 export interface Fruit {
   name: string;
 }
 
-// export interface devicetype{
-//   ID:Number;
-//   DeviceType:String;
-//   IsActive:Boolean;
-// }
+export type devicetype ={
+  ID:Number;
+  DeviceType:String;
+  IsActive:Boolean;
+}
 
 
-
+export type DataQuery ={
+  devicetype:devicetype[]
+}
 
 // const QUERY = gql`
 // {
@@ -37,6 +40,7 @@ export interface Fruit {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  emp:object = [];
   title = 'osg';
   public firmwares: Firmware;
   visible = true;
@@ -52,7 +56,7 @@ export class AppComponent implements OnInit {
     {name: 'Apple'},
   ];
   
-query$: Observable<any>;
+query$: Observable<devicetype[]>;
   constructor(
     private router: Router,private apollo: Apollo) {
       this.firmwares = new Firmware();
@@ -61,7 +65,7 @@ query$: Observable<any>;
 
      ngOnInit() {
 
-      const source$ = this.apollo.query({
+      const source$ = this.apollo.query<DataQuery>({
         query: gql`
         {
           devicetype {
