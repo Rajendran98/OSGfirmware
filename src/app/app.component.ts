@@ -6,7 +6,7 @@ import { Firmware } from './model/model';
 import {Apollo , QueryRef} from 'apollo-angular';
 import gql from "graphql-tag";
 import { map, shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs'
+import { Observable, of } from 'rxjs'
 
 
 export interface Fruit {
@@ -40,7 +40,7 @@ export type DataQuery ={
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  emp:object = [];
+  emp:object =[];
   title = 'osg';
   public firmwares: Firmware;
   visible = true;
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     {name: 'Lime'},
     {name: 'Apple'},
   ];
-  
+  count= 0
 query$: Observable<devicetype[]>;
   constructor(
     private router: Router,private apollo: Apollo) {
@@ -76,18 +76,17 @@ query$: Observable<devicetype[]>;
         }`
         
       }).pipe(shareReplay(1))
+
+ source$.pipe(map(result => result.data && result.data.devicetype)).subscribe((data) => this.emp =data);
+    //   this.query$.forEach( function (value){
+    //  console.log(value)
       
-      this.query$ = source$.pipe(map(result => result.data && result.data.devicetype));
-      console.log(this.query$)
-      // this.query$ = this.apollo
-      // .watchQuery<any>({
-      //   query: QUERY,
-      // })
-      // .valueChanges.pipe(map(result => result.data && result.data.devicetypes));
-      // console.log(this.query$)
+    //   })
+      
+
+  
   }
 
-     
 
      element: HTMLElement;
      toggleActive(event:any){

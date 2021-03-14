@@ -9,7 +9,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { __assign } from 'tslib';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-single-device-search',
   templateUrl: './single-device-search.component.html',
@@ -115,30 +114,7 @@ ngAfterViewInit() {
 
   
 
-    // this.publishVersion = {
-    //   update:[
-    //     {
-    //     Device: "NJ042614",
-    //     DeviceID: 351431,
-    //     CVersion: "",
-    //     JavaVersion: "J3202002",
-    //     ServerIP: "http://13.228.224.113/J3202002/TAP66.jad",
-    //     FilePath: "J3202002",
-    //     FileSize: "0",
-    //     FirmwareVersion: "J3202002",
-    //     FirmwareType: 0,
-    //     Port: 2222,
-    //     UserName: null,
-    //     Password: null,
-    //     FirmwareUpgradeEnum: 34,
-    //     APN: "m2m.trimble.com",
-    //     AppInstanceID: null,
-    //     UserID: "2739",
-    //     Internal: false,
-    //     DeviceGateway: "TDMG",
-    //     IOTDevice: ""
-    //   }
-    //   ]}
+  
   }
 
 
