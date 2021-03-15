@@ -102,4 +102,7 @@ export class UploadCFirmwareComponent implements OnInit {
   }
 
 
+  dash(){
+    this.router.navigate(['Firmware']);
+  }
 }

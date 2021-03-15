@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import {UpgradeFirmwareCombination } from '../model/model'
 
 @Component({
@@ -11,7 +12,7 @@ import {UpgradeFirmwareCombination } from '../model/model'
 export class UpgradeFirmwareCombinationComponent implements OnInit {
 
   Upgrade:UpgradeFirmwareCombination;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
     this.Upgrade ={
@@ -35,5 +36,7 @@ export class UpgradeFirmwareCombinationComponent implements OnInit {
     }
 
   }
-
+  dash(){
+    this.router.navigate(['Firmware']);
+  }
 }

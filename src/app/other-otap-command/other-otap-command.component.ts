@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentInit, AfterViewInit , AfterContentChecke
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
 
 
@@ -84,7 +84,7 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
    // this.dataSource.sort = this.sort;
   }
   
-    constructor(private route: ActivatedRoute) { }
+    constructor(private route: ActivatedRoute,private router: Router) { }
   
     ngOnInit(): void {
     
@@ -112,6 +112,9 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
       if(this.fileToUpload != null){
         alert("FIle Successfully Uploaded")
       }
+      }
+      dash(){
+        this.router.navigate(['Firmware']);
       }
   }
   

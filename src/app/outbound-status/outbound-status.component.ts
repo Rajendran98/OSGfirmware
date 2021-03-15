@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentInit, AfterViewInit , AfterContentChecke
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
 import { OutboundCdgMultiple} from '../model/model'
 import { OutboundService } from './outbound.service';
@@ -48,7 +48,7 @@ export class OutboundStatusComponent implements OnInit , AfterViewInit , AfterCo
  // @ViewChild(MatSort) sort: MatSort;
  @ViewChild(MatTableExporterDirective, { static: false }) exporter: MatTableExporterDirective;
   
-  constructor(private route: ActivatedRoute, private outbound: OutboundService ) { }
+  constructor(private route: ActivatedRoute, private outbound: OutboundService,private router:Router ) { }
   
     ngOnInit(): void {
       
@@ -273,6 +273,11 @@ masterToggle() {
     updateCheckedList(element)
     {
       console.log(element);
+    }
+
+
+    dash(){
+      this.router.navigate(['Firmware']);
     }
   }
   

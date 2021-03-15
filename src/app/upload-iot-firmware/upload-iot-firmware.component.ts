@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UploadIotFirmware} from '../model/model'
 
 @Component({
@@ -11,7 +12,7 @@ import { UploadIotFirmware} from '../model/model'
 export class UploadIotFirmwareComponent implements OnInit {
 
  uploadIot:UploadIotFirmware;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
     this.uploadIot={
@@ -58,4 +59,7 @@ export class UploadIotFirmwareComponent implements OnInit {
     accountForm.resetForm();
   }
 
+  dash(){
+    this.router.navigate(['Firmware']);
+  }
 }

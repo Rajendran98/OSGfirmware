@@ -24,4 +24,8 @@ export class DeviceSearchComponent implements OnInit {
     this.id=2
     this.router.navigate(['deviceSearch/single_device/',this.id]); 
   }
+
+  dash(){
+    this.router.navigate(['Firmware']);
+  }
 }

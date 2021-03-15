@@ -2,12 +2,14 @@ import { Component, OnInit, AfterContentInit, AfterViewInit , AfterContentChecke
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
 import {DevicesearchService} from "./service/devicesearch.service"
 import { SelectionModel } from '@angular/cdk/collections';
 import { __assign } from 'tslib';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { stringify } from '@angular/compiler/src/util';
+
 
 @Component({
   selector: 'app-single-device-search',
@@ -67,7 +69,7 @@ ngAfterViewInit() {
   
 }
 
-  constructor(private route: ActivatedRoute, private DevicesearchService: DevicesearchService,private _snackBar: MatSnackBar) { }
+  constructor(private router: Router,private route: ActivatedRoute, private DevicesearchService: DevicesearchService,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -242,11 +244,12 @@ checkboxLabel(row?: any): string {
     if(this.select == true && this.version != undefined && this.Device != undefined)
     {
       let objData = Object.assign({update: [{Device: this.Device , DeviceID: 351431 , CVersion: this.version , JavaVersion: "", ServerIP: this.ServerIP , FilePath: this.FilePath , FileSize: this.FileSize , FirmwareVersion: this.FirmwareVersion , FirmwareType: 0 , Port: this.Port , UserName: this.UserName , Password: this.Password , FirmwareUpgradeEnum: 34 , APN: this.APN , AppInstanceID: null , UserID: "2739" , Internal: false , DeviceGateway: "TDMG" , IOTDevice: ""}]})
-        // __assign(this.publishVersion,{update: [{Device: this.Device , DeviceID: 351431 , CVersion: this.version , JavaVersion: "", ServerIP: this.ServerIP , FilePath: this.FilePath , FileSize: this.FileSize , FirmwareVersion: this.FirmwareVersion , FirmwareType: 0 , Port: this.Port , UserName: this.UserName , Password: this.Password , FirmwareUpgradeEnum: 34 , APN: this.APN , AppInstanceID: null , UserID: this.UserID , Internal: false , DeviceGateway: "TDMG" , IOTDevice: ""}]})
-        // console.log(this.publishVersion) 
+    
       console.log(objData)
       this.DevicesearchService.PublishedVersion(objData).pipe().subscribe(data=>{
         console.log(data)
+       
+      this._snackBar.open(this.Device + " Updated Successfully","",{duration: 5000});
         })
       
         // this.finalPost();
@@ -259,6 +262,7 @@ checkboxLabel(row?: any): string {
   
         this.DevicesearchService.PublishedVersion(objData).pipe().subscribe(data=>{
           console.log(data)
+          this._snackBar.open(this.Device + " Updated Successfully","",{duration: 5000});
           })
     }
     if(this.version == undefined || this.Device == undefined)
@@ -278,5 +282,9 @@ checkboxLabel(row?: any): string {
       alert("FIle Successfully Uploaded")
     }
     //console.log(this.fileToUpload.name);
+    }
+
+    dash(){
+      this.router.navigate(['Firmware']);
     }
 }

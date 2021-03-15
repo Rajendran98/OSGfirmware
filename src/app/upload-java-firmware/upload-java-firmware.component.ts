@@ -68,5 +68,7 @@ export class UploadJavaFirmwareComponent implements OnInit {
     accountForm.resetForm();
   }
 
-
+  dash(){
+    this.router.navigate(['Firmware']);
+  }
 }

@@ -25,6 +25,13 @@ export type DataQuery1 ={
   devicepacket:devicepacket[]
 }
 
+export type reportingstatus ={
+  ID:Number;
+}
+export type DataQuery2 ={
+  reportingstatus:reportingstatus[]
+}
+
 
 @Component({
   selector: 'app-fmdashboard',
@@ -35,6 +42,7 @@ export class FmdashboardComponent implements OnInit {
   emp:object =[];
   public TotalDevice;
   public ReportStatus
+  public activepacket;
   constructor(private router: Router,private apollo: Apollo, private FmdashboardService : FmdashboardService) { }
 
   ngOnInit(): void {
@@ -64,6 +72,22 @@ const source1$ = this.apollo.query<DataQuery1>({
 }).pipe(shareReplay(1))
 
 source1$.pipe(map(result => result.data && result.data.devicepacket)).subscribe((data) => this.ReportStatus = data.length);
+
+
+
+const source2$ = this.apollo.query<DataQuery2>({
+  query: gql`
+  {
+    reportingstatus {
+      ID
+    }
+  }`
+  
+}).pipe(shareReplay(1))
+
+source2$.pipe(map(result => result.data && result.data.reportingstatus)).subscribe((data) => this.activepacket = data.length);
+
+
 
 }
 
