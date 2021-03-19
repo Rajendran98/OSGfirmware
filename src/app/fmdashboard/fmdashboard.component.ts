@@ -60,7 +60,6 @@ export class FmdashboardComponent implements OnInit {
 
 source$.pipe(map(result => result.data && result.data.devicemaster)).subscribe((data) => this.TotalDevice = data.length);
   
-
 const source1$ = this.apollo.query<DataQuery1>({
   query: gql`
   {

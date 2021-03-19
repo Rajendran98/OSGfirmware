@@ -6,7 +6,8 @@ import { Firmware } from './model/model';
 import {Apollo , QueryRef} from 'apollo-angular';
 import gql from "graphql-tag";
 import { map, shareReplay } from 'rxjs/operators';
-import { Observable, of } from 'rxjs'
+import { from, Observable, of } from 'rxjs'
+import { ExportToCsv } from 'export-to-csv';
 
 
 export interface Fruit {
@@ -40,6 +41,7 @@ export type DataQuery ={
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public headerFlag = false;
   emp:object =[];
   title = 'osg';
   public firmwares: Firmware;
@@ -103,8 +105,22 @@ query$: Observable<devicetype[]>;
     }
 
     dashboard(){
-      this.router.navigate(['dashboard']);
-      console.log('dashboard');
+    //   const options = { 
+    //     filename: 'Firmware Report',
+    //     fieldSeparator: ',',
+    //     quoteStrings: '"',
+    //     decimalSeparator: '.',
+    //     showLabels: true, 
+    //     showTitle: false,
+    //     useTextFile: false,
+    //     useBom: true,
+    //     useKeysAsHeaders: true,
+       
+    //   };
+     
+    // const csvExporter = new ExportToCsv(options);
+     
+    // csvExporter.generateCsv(this.emp);
     }
     
     firmware(){

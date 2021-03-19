@@ -16,9 +16,9 @@
 
    <mat-form-field class="form" appearance="outline">
                            
-    <input style="text-indent: 2em;" matInput  placeholder="Search Device" #input>  
+    <input style="text-indent: 2em;" matInput  [(ngModel)]="searchedData"  placeholder="Search Device" #input>  
      <mat-icon style="color: gray;" matPrefix>search</mat-icon>
    
 </mat-form-field>
-<button mat-raised-button class="btn">SUBMIT</button>
+<button (click)="search(searchedData)" mat-raised-button class="btn">SUBMIT</button>
 </mat-card>

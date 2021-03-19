@@ -111,6 +111,8 @@
       background:White;
     }
     
+
+    
   
     .example-sidenav-content {
       display: flex;
@@ -198,8 +200,29 @@
     background-color: #F5F5F5 !important;
     height: 300px;
   }
- 
+  
+/* mat-sidenav-content.mat-drawer-content {
+  z-index: initial !important;
+  margin-left: 60px !important;
+}
+
+
+
+
+.selectedSideNav {
+    width: 12%;
+}
+
+.icon_space {
+  padding-left: 10px;
+  font-size: medium;
+  font-weight: 700;
+} */
   @media only screen  and (min-width:300px) and (max-width:768px) {
+  
+    /* .selectedSideNav {
+      width: 40%;
+  } */
   
     .logo{
   
