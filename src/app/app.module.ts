@@ -51,6 +51,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { GraphQLModule } from './graphql.module';
+import {MatDialogModule} from '@angular/material/dialog';
+import {addCommand} from './other-otap-command/other-otap-command.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +71,7 @@ import { GraphQLModule } from './graphql.module';
     FirmwareReportComponent,
     LoginComponent,
     CustomerselectionComponent,
+    addCommand
     
   
     
@@ -103,9 +106,11 @@ import { GraphQLModule } from './graphql.module';
     MatTableExporterModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    GraphQLModule
+    GraphQLModule,
+    MatDialogModule
 
   ],
+  entryComponents: [addCommand],
   providers: [ AuthenticationService,OutboundService ,{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

@@ -46,7 +46,7 @@ export class SingleDeviceSearchComponent implements OnInit , AfterViewInit , Aft
 
 // @ViewChild(MatPaginator) paginator: MatPaginator;
 // @ViewChild(MatSort) sort: MatSort;
-
+//DeviceID","Device_Type","CUSTOMER NAME","Network Provider","Mobile_Number","Mobile number2 ","Subcription_StartDate","Subcription_EndDate","Vehicle_Type","Vehicle_Model","Current C Version","Current Java Version","ignition"
 //value assigned to update
 
   public version;

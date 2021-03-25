@@ -1,41 +1,59 @@
-import { Component, OnInit, AfterContentInit, AfterViewInit , AfterContentChecked} from '@angular/core';
+import { Component,Inject, OnInit, AfterContentInit, AfterViewInit , AfterContentChecked} from '@angular/core';
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSort , Sort} from '@angular/material/sort'; 
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { NgForm } from '@angular/forms';
+import {Apollo , QueryRef} from 'apollo-angular';
+import gql from "graphql-tag";
+import { map, shareReplay } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs'
+import { error } from 'selenium-webdriver';
+import { stringify } from '@angular/compiler/src/util';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export type otherotapcommand ={
+  DeviceID:Number;
+  DeviceType:String;
+  Customer:String;
+  NetworkProvider:String;
+  MobileNo:Number;
+  Model:String;
+  VehicleTypeName:String;
+  CurrentCVersion:String;
+  CurrentJavaVersion:String;
+  Ignition:String;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
+export type DataQuery ={
+  otherotapcommand:otherotapcommand[]
+}
+
+
+export type otapcommand = {
+  DeviceID:String;
+  PacketID:Number;
+  Name:String;
+  Message:String
+}
+export type DataQuery1 ={
+  otapcommand:otapcommand[]
+}
+
+const UPVOTE_POST = gql`
+
+mutation addotapcommand($PacketID:Int! ,$DeviceID: String!, $Name: String!,$Message: String!) {
+  addotapcommand (PacketID: $PacketID,DeviceID: $DeviceID,Name: $Name,Message: $Message ){
+    PacketID
+    DeviceID
+    Name
+    Message
+  }
+}
+`;
 
 
 @Component({
@@ -49,9 +67,12 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
   fileToUpload: File;
   id = 0;
   tabIndex = 0;
+  loadingFlag = true;
+  temp = null
+  messages:object =[];
   //displayedColumns: string[] = ['select','id','name','cn','np','mn1','mn2','ssd','sed','vtn','model','ccv','cjv'];
-  displayedColumns: string[]=["select","position","name","cn","symbol","weight","mn2","ssd","sed","vtn","model"]
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[]=["select","DeviceID","DeviceType","Customer","NetworkProvider","MobileNo","Model","VehicleTypeName","CurrentCVersion","CurrentJavaVersion","Ignition"]
+  dataSource : MatTableDataSource<any>
   
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatSort) sort: MatSort;
@@ -71,8 +92,10 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
   }
 
   setDataSourceAttributes() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if(this.loadingFlag == false){
+      this.dataSource.paginator = this.paginator 
+      this.dataSource.sort = this.sort;
+    }
   }
   
   ngAfterContentInit(){
@@ -84,10 +107,56 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
    // this.dataSource.sort = this.sort;
   }
   
-    constructor(private route: ActivatedRoute,private router: Router) { }
+    constructor(private route: ActivatedRoute, private _snackBar: MatSnackBar ,private router: Router,public dialog: MatDialog,private apollo: Apollo) { }
   
     ngOnInit(): void {
     
+      
+      const source$ = this.apollo.query<DataQuery>({
+        query: gql`
+        {
+          otherotapcommand {
+              DeviceID
+              DeviceType
+              Customer
+              NetworkProvider
+              MobileNo
+              Model
+              VehicleTypeName
+              CurrentCVersion
+              CurrentJavaVersion
+              Ignition
+            }
+        }`
+        
+      }).pipe(shareReplay(1))
+
+ source$.pipe(map(result => result.data && result.data.otherotapcommand)).subscribe((data) =>   
+    this.dataSource = new MatTableDataSource(data)
+    );
+
+    setTimeout(() =>{
+      this.dataSource ? this.loadingFlag = false : this.loadingFlag = true;
+           this.temp = this.dataSource.data.length;
+    },1000)
+          
+          
+
+    const source1$ = this.apollo.query<DataQuery1>({
+      query: gql`
+      {
+        otapcommand{
+          Message
+        }
+      }`
+      
+    }).pipe(shareReplay(1))
+
+source1$.pipe(map(result => result.data && result.data.otapcommand)).subscribe((data) =>   
+ this.messages = data
+  );
+
+  
     }
   
   
@@ -108,7 +177,7 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
 
     postMethod(files: FileList) {
       this.fileToUpload = files.item(0);
-      //console.log(this.fileToUpload.name);
+     
       if(this.fileToUpload != null){
         alert("FIle Successfully Uploaded")
       }
@@ -116,5 +185,71 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
       dash(){
         this.router.navigate(['Firmware']);
       }
+
+
+      AddCommand(): void {
+        const dialogRef = this.dialog.open(addCommand, {
+          width: '400px',
+          data: { }
+        });
+    
+       dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+ 
+        });
+
+      }
   }
+
+
+
+  @Component({
+    selector: 'addCommand',
+    templateUrl: 'addCommand.html',
+  })
+  export class addCommand {
+    public deviceId;
+    public packetId;
+    public name;
+    public message;
+  
+    constructor(private apollo: Apollo,private _snackBar: MatSnackBar ,
+      public dialogRef: MatDialogRef<addCommand>,
+      @Inject(MAT_DIALOG_DATA) public data: []) {}
+  
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+
+    AddCommand(addCommandForm: NgForm){
+      if(addCommandForm.valid){
+        console.log(addCommandForm.value)
+
+        this.apollo.mutate({
+          mutation: UPVOTE_POST,
+          variables: 
+          {
+            PacketID:this.packetId,
+            DeviceID:this.deviceId,
+            Name: this.name,
+            Message: this.message
+          }
+        }).subscribe(({data }) => {
+          this._snackBar.open("Value Uploaded Successfully","",{duration: 2000});
+        },
+        (error) => this._snackBar.open("DeviceID Not Found","",{duration: 2000})
+        )
+        
+
+   
+        
+      }
+      else{
+        return
+      }
+
+    }
+  
+  }
+  
   
