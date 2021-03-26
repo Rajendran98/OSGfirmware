@@ -13,6 +13,8 @@ import { from, Observable, of } from 'rxjs'
 import { error } from 'selenium-webdriver';
 import { stringify } from '@angular/compiler/src/util';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { SelectionModel } from '@angular/cdk/collections';
+import {UpgradecommandService} from './service/upgradecommand.service'
 
 export type otherotapcommand ={
   DeviceID:Number;
@@ -73,6 +75,12 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
   //displayedColumns: string[] = ['select','id','name','cn','np','mn1','mn2','ssd','sed','vtn','model','ccv','cjv'];
   displayedColumns: string[]=["select","DeviceID","DeviceType","Customer","NetworkProvider","MobileNo","Model","VehicleTypeName","CurrentCVersion","CurrentJavaVersion","Ignition"]
   dataSource : MatTableDataSource<any>
+  selection = new SelectionModel(false, []);
+
+
+  public device;
+  public messageFormat;
+  public messageName;
   
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatSort) sort: MatSort;
@@ -107,7 +115,7 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
    // this.dataSource.sort = this.sort;
   }
   
-    constructor(private route: ActivatedRoute, private _snackBar: MatSnackBar ,private router: Router,public dialog: MatDialog,private apollo: Apollo) { }
+    constructor(private route: ActivatedRoute, private UpgradecommandService: UpgradecommandService, private _snackBar: MatSnackBar ,private router: Router,public dialog: MatDialog,private apollo: Apollo) { }
   
     ngOnInit(): void {
     
@@ -147,6 +155,9 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
       {
         otapcommand{
           Message
+          Name
+          DeviceID
+          PacketID
         }
       }`
       
@@ -186,6 +197,65 @@ source1$.pipe(map(result => result.data && result.data.otapcommand)).subscribe((
         this.router.navigate(['Firmware']);
       }
 
+      private isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+      }
+
+      toggleRow(row: any, index: number) {
+        this.selection.toggle(row);
+        console.log(row)
+        for (const [key, value] of Object.entries(row)) {
+          if(key == "DeviceID"){
+            this.device = value
+          }
+       
+        }
+      }
+      
+      /** The label for the checkbox on the passed row */
+      checkboxLabel(row?: any): string {
+        if (!row) {
+         
+          return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+          
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+      }
+      
+
+      listed(version){
+        console.log(version)
+        for (const [key, value] of Object.entries(version)) {
+
+          if(key == "Message"){
+            this.messageFormat = value
+          }
+          if(key == "Name"){
+            this.messageName = value
+          }
+
+        }
+      }
+
+      PostData(){
+        if(this.device == undefined || this.messageName == undefined)
+        {
+          this._snackBar.open("Select Command and CheckBox To Upgrade Command","",{duration: 5000});
+        }
+        if(this.device != undefined && this.messageName != undefined)
+        {
+          let objData = Object.assign({update: [{Device: this.device , DeviceID: 351431 , MessageFormat: this.messageFormat , FirmwareUpgradeEnum: 17 , IOTDevice: "" , MessageName: this.messageName , AppInstanceID: null , DeviceGateway: "TDMG" , UserID: 2739}]});
+        this.UpgradecommandService.PublishedVersion(objData).pipe().subscribe(data=>{
+          console.log(data)
+          this._snackBar.open(this.device + " Updated Successfully","",{duration: 5000});
+          },
+          (error) => this._snackBar.open("DeviceID Mismatch","",{duration: 5000})
+          )
+        }
+      }
+      
 
       AddCommand(): void {
         const dialogRef = this.dialog.open(addCommand, {
