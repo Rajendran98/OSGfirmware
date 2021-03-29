@@ -15,13 +15,13 @@
                     <div class="col-sm-8 cleft">
                         <p>Single device search option is to handle upgradation of the searched device</p>
                         <div class="example-container" >
-                        <mat-form-field style="width: 80%;" appearance="outline">
+                        <mat-form-field style="width: 100%;" appearance="outline">
                            
                             <input style="text-indent: 2em;" matInput (keyup)="applyFilter($event)" placeholder="Search Device" #input>  
                              <mat-icon style="color: gray;" matPrefix>search</mat-icon>
                            
                         </mat-form-field>
-                        <button mat-raised-button class="btn">SUBMIT</button>
+                       
                         <mat-form-field style="width: 65%;" appearance="standard">
                             <mat-label>SELECT COMMAND</mat-label>
                             <mat-select name="javaV" placeholder="JAVA VERSION">
@@ -31,7 +31,7 @@
                                   {{message.Name}}
                                 </mat-option>
                               
-                                <mat-option value="tap88">TAP88</mat-option>
+                            
                             </mat-select>
                           </mat-form-field>
                           <button mat-raised-button class="btn2" (click)="AddCommand()">ADD COMMAND</button>
@@ -71,7 +71,8 @@
 
 <div *ngIf="tabIndex === 0" >
   <div *ngIf="this.temp != null">
-    <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+    <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName: 'Other OTAP Command Report'})" class="btns">DOWNLOAD <mat-icon style="padding: 0 10px; vertical-align: middle;">cloud_download</mat-icon></button>
+    <table mat-table  matTableExporter [dataSource]="dataSource" matSort  class="mat-elevation-z8" #exporter="matTableExporter">
 
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef="let row; let i = index" ><mat-checkbox (change)="$event ? toggleRow(row, i) : null" color="primary"></mat-checkbox></th>

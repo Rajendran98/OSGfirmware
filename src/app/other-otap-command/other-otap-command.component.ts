@@ -15,6 +15,7 @@ import { stringify } from '@angular/compiler/src/util';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
 import {UpgradecommandService} from './service/upgradecommand.service'
+import { MatTableExporterDirective } from 'mat-table-exporter';
 
 export type otherotapcommand ={
   DeviceID:Number;
@@ -88,7 +89,7 @@ export class OtherOTAPCommandComponent implements OnInit , AfterViewInit , After
   private paginator: MatPaginator;
   private sort: MatSort;
 
-
+  @ViewChild(MatTableExporterDirective, { static: false }) exporter: MatTableExporterDirective;
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
@@ -205,12 +206,13 @@ source1$.pipe(map(result => result.data && result.data.otapcommand)).subscribe((
 
       toggleRow(row: any, index: number) {
         this.selection.toggle(row);
+        this.exporter.toggleRow(index);
         console.log(row)
         for (const [key, value] of Object.entries(row)) {
           if(key == "DeviceID"){
             this.device = value
+            console.log(this.device)
           }
-       
         }
       }
       
@@ -247,7 +249,8 @@ source1$.pipe(map(result => result.data && result.data.otapcommand)).subscribe((
         if(this.device != undefined && this.messageName != undefined)
         {
           let objData = Object.assign({update: [{Device: this.device , DeviceID: 351431 , MessageFormat: this.messageFormat , FirmwareUpgradeEnum: 17 , IOTDevice: "" , MessageName: this.messageName , AppInstanceID: null , DeviceGateway: "TDMG" , UserID: 2739}]});
-        this.UpgradecommandService.PublishedVersion(objData).pipe().subscribe(data=>{
+          console.log(objData)
+          this.UpgradecommandService.PublishedVersion(objData).pipe().subscribe(data=>{
           console.log(data)
           this._snackBar.open(this.device + " Updated Successfully","",{duration: 5000});
           },
